@@ -9,9 +9,18 @@ function ApplicationItem({ application, refresh }) {
     };
 
     const handleDelete = async () => {
-        await deleteApplication(application.id);
-        refresh();
+        if (window.confirm("Are you sure you want to delete this application?")) {
+            await deleteApplication(application.id);
+            refresh();
+        }
     };
+
+    const statusColor =
+        application.status === "Applied"
+            ? "warning"
+            : application.status === "Interview"
+                ? "success"
+                : "danger";
 
     return (
         <tr>
@@ -20,13 +29,7 @@ function ApplicationItem({ application, refresh }) {
             <td>{application.role}</td>
             <td>
                 <select
-                    className={`form-select ${
-                        application.status === "Applied"
-                            ? "border-warning"
-                            : application.status === "Interview"
-                                ? "border-success"
-                                : "border-danger"
-                    }`}
+                    className={`form-select border-${statusColor}`}
                     value={application.status}
                     onChange={handleStatusChange}
                 >
@@ -36,10 +39,7 @@ function ApplicationItem({ application, refresh }) {
                 </select>
             </td>
             <td>
-                <button
-                    className="btn btn-sm btn-danger"
-                    onClick={handleDelete}
-                >
+                <button className="btn btn-sm btn-danger" onClick={handleDelete}>
                     Delete
                 </button>
             </td>

@@ -27,21 +27,20 @@ function ApplicationForm({ refresh }) {
 
     return (
         <form onSubmit={handleSubmit} className="row g-3">
-            <div className="col-md-3">
+
+            <div className="col-lg-3 col-md-6 col-12">
                 <input
-                    type="text"
                     className="form-control"
                     name="candidateName"
-                    placeholder="Candidate Name"
+                    placeholder="Name"
                     value={form.candidateName}
                     onChange={handleChange}
                     required
                 />
             </div>
 
-            <div className="col-md-3">
+            <div className="col-lg-3 col-md-6 col-12">
                 <input
-                    type="text"
                     className="form-control"
                     name="company"
                     placeholder="Company"
@@ -51,9 +50,8 @@ function ApplicationForm({ refresh }) {
                 />
             </div>
 
-            <div className="col-md-3">
+            <div className="col-lg-3 col-md-6 col-12">
                 <input
-                    type="text"
                     className="form-control"
                     name="role"
                     placeholder="Role"
@@ -63,7 +61,7 @@ function ApplicationForm({ refresh }) {
                 />
             </div>
 
-            <div className="col-md-2">
+            <div className="col-lg-3 col-md-6 col-12">
                 <select
                     className="form-select"
                     name="status"
@@ -76,9 +74,13 @@ function ApplicationForm({ refresh }) {
                 </select>
             </div>
 
-            <div className="col-md-1 d-grid">
-                <button className="btn btn-primary">Add</button>
+            {/* Button */}
+            <div className="col-12 d-flex justify-content-center mt-3">
+                <button type="submit" className="btn btn-primary px-5">
+                    Add
+                </button>
             </div>
+
         </form>
     );
 }
