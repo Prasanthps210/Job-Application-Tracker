@@ -5,6 +5,7 @@ import { getApplications } from "./services/applicationService";
 import { getPaginatedApplications } from "./services/applicationService";
 import { getStatistics } from "./services/applicationService";
 import EditApplicationModal from "./components/EditApplicationModal";
+import { exportToExcel } from "./services/applicationService";
 
 function App() {
     const [applications, setApplications] = useState([]);
@@ -16,6 +17,8 @@ function App() {
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedApplication, setSelectedApplication] = useState(null);
     const [editApp, setEditApp] = useState(null);
+
+
 
     const loadApplications = async () => {
         const res = await getPaginatedApplications(page, 5, search, statusFilter);
@@ -62,6 +65,18 @@ function App() {
         setStats(res.data);
     };
 
+
+    const handleExport = async () => {
+        const res = await exportToExcel();
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Job_Applications.xlsx");
+        document.body.appendChild(link);
+        link.click();
+    };
+
+
     //const total = totalElements;
 
     // const applied = applications.filter(a => a.status === "Applied").length;
@@ -79,13 +94,35 @@ function App() {
                             Job Application Tracker
                         </h2>
 
-                        {/* Counters */}
-                        <div className="d-flex justify-content-around mb-4">
-                            <span className="badge bg-primary">Total: {stats.total}</span>
-                            <span className="badge bg-warning text-dark">Applied: {stats.applied}</span>
-                            <span className="badge bg-success">Interview: {stats.interview}</span>
-                            <span className="badge bg-danger">Rejected: {stats.rejected}</span>
+                        {/* Top Stats + Export */}
+                        <div className="d-flex justify-content-between align-items-center mb-4">
+
+                            {/* Counters */}
+                            <div className="d-flex gap-3 flex-wrap">
+                                <span className="badge bg-primary fs-6 px-3 py-2">
+                                  Total: {stats.total}
+                                </span>
+                                                            <span className="badge bg-warning text-dark fs-6 px-3 py-2">
+                                  Applied: {stats.applied}
+                                </span>
+                                                            <span className="badge bg-success fs-6 px-3 py-2">
+                                  Interview: {stats.interview}
+                                </span>
+                                                            <span className="badge bg-danger fs-6 px-3 py-2">
+                                  Rejected: {stats.rejected}
+                                </span>
+                            </div>
+
+                            {/* Export Button */}
+                            <button
+                                className="btn btn-success px-4 py-2 fw-bold"
+                                onClick={handleExport}
+                            >
+                                Export to Excel
+                            </button>
+
                         </div>
+
 
                         {/* Form */}
                         <div className="card p-4 shadow-sm mb-4">

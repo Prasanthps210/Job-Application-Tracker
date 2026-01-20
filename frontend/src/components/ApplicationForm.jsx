@@ -94,6 +94,7 @@ function ApplicationForm({ refresh }) {
                 </button>
             </div>
 
+
         </form>
     );
 }
